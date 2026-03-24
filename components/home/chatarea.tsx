@@ -7,12 +7,12 @@ import {
   FlaskConical,
   BookOpenText,
   TextSearch,
-  Bot,
   Copy,
   Check,
   RotateCcw,
   Mail,
 } from "lucide-react"
+import Image from "next/image"
 import { TestChat, postTest } from "@/lib/api"
 import { useRouter } from "next/navigation"
 import { exportResponsePDF } from "@/gen/pdfmaker"
@@ -284,8 +284,8 @@ const WelcomeScreen = ({ user, onPrompt }: { user: any; onPrompt: (p: string) =>
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-4 py-16 text-center">
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/8 border border-white/10">
-        <Bot className="h-6 w-6 text-blue-400" />
+      <div className="mb-4 flex h-16 w-16 items-center justify-center">
+        <Image src="/assets/logo.webp" alt="Logo" width={64} height={64} className="rounded-full object-cover" />
       </div>
       <h2 className="mb-1 text-xl font-semibold text-white">
         {user?.name ? `Hello, ${user.name}` : "How can I help you?"}
@@ -431,8 +431,8 @@ export default function ChatArea({
               return (
                 <div key={i} className="group flex gap-4 py-4">
                   {/* Bot avatar */}
-                  <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white">
-                    <Bot className="h-4 w-4 text-black" />
+                  <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full overflow-hidden">
+                    <Image src="/assets/logo-without.webp" alt="Logo" width={28} height={28} className="object-cover" />
                   </div>
 
                   {/* Response content */}

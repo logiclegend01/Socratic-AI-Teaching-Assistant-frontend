@@ -12,7 +12,6 @@ export default function Home() {
   const queryClient = useQueryClient()
   const [activeChatId, setActiveChatId] = useState<string | null>(null)
 
-  // ── Fetch chat list ────────────────────────────────────────────────────────
 
   const { data: chats = [] } = useQuery<any[]>({
     queryKey: ["chats", user?.id],
@@ -24,14 +23,12 @@ export default function Home() {
     enabled: !!user?.id,
   })
 
-  // Auto-select first chat once loaded
   useEffect(() => {
     if (!activeChatId && chats.length > 0) {
       setActiveChatId(chats[0].id)
     }
   }, [chats, activeChatId])
 
-  // ── Fetch messages for active chat ────────────────────────────────────────
 
   const { data: messages = [] } = useQuery<any[]>({
     queryKey: ["messages", activeChatId],
@@ -43,7 +40,6 @@ export default function Home() {
     enabled: !!activeChatId && !!user?.email,
   })
 
-  // ── Mutations ──────────────────────────────────────────────────────────────
 
   const createChatMutation = useMutation({
     mutationFn: async () => {
@@ -70,12 +66,10 @@ export default function Home() {
     },
   })
 
-  // Optimistically update messages after each AI reply
   const setMessagesOptimistic = (newMessages: any[]) => {
     queryClient.setQueryData(["messages", activeChatId], newMessages)
   }
 
-  // ── Layout ─────────────────────────────────────────────────────────────────
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#212121] text-neutral-100">

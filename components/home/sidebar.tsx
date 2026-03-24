@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
 import {
   Plus,
   Trash2,
   MessageSquare,
   ChevronLeft,
   ChevronRight,
-  Bot,
   LogOut,
 } from "lucide-react"
 import { useUserStore } from "@/store/userStore"
@@ -47,7 +47,6 @@ export default function Sidebar({
     router.push("/login")
   }
 
-  // Group chats by recency (Today, Yesterday, Older)
   const groupChats = () => {
     const now = new Date()
     const today: Chat[] = []
@@ -91,7 +90,7 @@ export default function Sidebar({
         )}
       </button>
 
-      {/* Delete button — only show on hover when not collapsed */}
+    
       {!collapsed && hoveredId === chat.id && (
         <button
           onClick={(e) => {
@@ -130,7 +129,6 @@ export default function Sidebar({
       transition={{ duration: 0.25, ease: "easeInOut" }}
       className="relative flex h-full shrink-0 flex-col border-r border-white/8 bg-[#171717] overflow-hidden"
     >
-      {/* Toggle collapse button */}
       <button
         onClick={() => setCollapsed((c) => !c)}
         className="absolute -right-3 top-6 z-10 flex h-6 w-6 items-center justify-center rounded-full border border-white/10 bg-[#212121] text-neutral-400 hover:text-white shadow-sm"
@@ -142,9 +140,8 @@ export default function Sidebar({
         )}
       </button>
 
-      {/* Logo */}
       <div className="flex h-14 items-center px-4 border-b border-white/8">
-        <Bot className="h-5 w-5 shrink-0 text-blue-400" />
+        <Image src="/assets/logo-without.webp" alt="Logo" width={28} height={28} className="shrink-0 object-contain" />
         {!collapsed && (
           <span className="ml-2.5 text-sm font-semibold text-white truncate">
             Digital Socratic
@@ -152,7 +149,6 @@ export default function Sidebar({
         )}
       </div>
 
-      {/* New Chat button */}
       <div className="px-2 py-3">
         <button
           onClick={onNewChat}
@@ -166,7 +162,6 @@ export default function Sidebar({
         </button>
       </div>
 
-      {/* Chat list */}
       <div className="flex-1 overflow-y-auto px-2 py-1 scrollbar-thin scrollbar-thumb-white/10">
         {chats.length === 0 ? (
           !collapsed && (
@@ -183,7 +178,6 @@ export default function Sidebar({
         )}
       </div>
 
-      {/* User info + logout */}
       <div className="border-t border-white/8 px-2 py-3">
         <button
           onClick={handleLogout}

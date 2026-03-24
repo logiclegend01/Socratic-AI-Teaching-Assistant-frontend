@@ -1,7 +1,7 @@
 "use client"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Book, Loader } from "lucide-react"
+import { Loader } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
 import { useForm, Controller } from "react-hook-form"
@@ -44,7 +44,9 @@ export default function Login() {
     <main className="flex h-screen w-screen items-center justify-center">
       <Card className="w-full max-w-md p-6">
         <div className="flex h-full w-full flex-col items-center justify-center text-center">
-          {/* <Image src={"assets/logo.webp"} alt="image" className="w-24 h-24"/> */}
+          <div className="mb-3 flex items-center justify-center">
+            <Image src="/assets/logo.webp" alt="Digital Socratic Logo" width={80} height={80} className="rounded-full object-cover" />
+          </div>
           <div className="m-3">
             <h1 className="text-2xl font-bold">The Digital Socratic</h1>
             <span className="text-[10px] font-light">

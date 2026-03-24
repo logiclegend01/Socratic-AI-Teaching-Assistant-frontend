@@ -1,13 +1,14 @@
 "use client"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Book, Loader } from "lucide-react"
+import { Loader } from "lucide-react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
 import { useForm, Controller } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import api from "@/lib/api"
 import { useUserStore } from "@/store/userStore"
@@ -55,7 +56,9 @@ export default function SignUp() {
       <div className="flex h-full w-full items-center justify-center">
         <Card className="w-full max-w-md p-6">
           <div className="flex h-full w-full flex-col items-center justify-center text-center">
-            <Book className="h-full w-10 rounded-xl border p-1 text-center shadow-black" />
+            <div className="mb-3 flex items-center justify-center">
+              <Image src="/assets/logo.webp" alt="Digital Socratic Logo" width={80} height={80} className="rounded-full object-cover" />
+            </div>
             <div className="m-1">
               <h1 className="text-2xl font-bold">The Digital Socratic</h1>
               <span className="text-[10px] font-light">
