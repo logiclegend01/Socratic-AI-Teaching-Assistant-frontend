@@ -6,7 +6,7 @@
 /*
  * WARNING: This is an internal file that is subject to change!
  *
- * 🛑 Under no circumstances should you import this file directly! 🛑
+ *
  *
  * Please import the `PrismaClient` class from the `client.ts` file instead.
  */

@@ -7,8 +7,7 @@ export class UserController {
 
     @Post("get")
     async getUser(@Body() body : {identifier:string}){
-        const {identifier} = body
-
+        const { identifier } = body
         return this.userService.getUser(identifier)
     }
 

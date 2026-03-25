@@ -6,40 +6,26 @@ export class UserService {
 
     async getUser(identifier) {
         try {
-
-            if (!identifier) {
-                throw new UnauthorizedException("emial or username is required")
-            }
-
+            if (!identifier) throw new UnauthorizedException("emial or username is required")
             const user = await this.prisma.user.findFirst({
                 where: {
                     OR: [
-                        {email:identifier},
-                        {username: identifier}
+                        { email: identifier },
+                        { username: identifier }
                     ]
                 }
             })
-
-             if(!user){
-                throw new UnauthorizedException('user not found')
-             }
-
-
-             return {
-                message : "user found",
-                statusbar: 200,
-                user,
-                sucess: true
-             }
+            if (!user) throw new UnauthorizedException('user not found')
+            return { message: "user found", statusbar: 200, user, sucess: true }
 
 
         } catch (e) {
-            return {
-                message: "internal server error",
-                status: 500,
-                sucess: false
-            }
+            return { message: "internal server error", status: 500, sucess: false }
         }
+    }
+
+    async updateUser(identifier){
+   
     }
 
 }
