@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
 import Providers from "./providers";
 import PrivateRoute from "./(auth)/private/page";
+import { Toaster } from "@/components/ui/sonner";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'})
 
@@ -33,12 +34,13 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       className={cn("antialiased", fontMono.variable, "font-sans", geist.variable)}
-       cz-shortcut-listen="true"
+      cz-shortcut-listen="true"
     >
       <body>
         <Providers>
           <ThemeProvider>
             <PrivateRoute>{children}</PrivateRoute>
+            <Toaster />
           </ThemeProvider>
         </Providers>
       </body>

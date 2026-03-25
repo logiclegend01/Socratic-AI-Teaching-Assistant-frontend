@@ -5,6 +5,7 @@ import { useUserStore } from "@/store/userStore"
 import { useRouter } from "next/navigation"
 import { User, Mail, AtSign, Save, Sparkles, Brain, BookOpen, MessageSquare, LogOut, FileText } from "lucide-react"
 import { postuser, getuser, postmode } from "@/auth/auth"
+import { toast } from "sonner"
 
 const ASSISTANTS = [
   {
@@ -83,7 +84,7 @@ export default function Profile() {
     setIsSaving(true)
 
     try {
-      await postuser({ name: formData.name, bio: formData.bio })
+      const response = await postuser({ name: formData.name, bio: formData.bio })
       
       const identifier = formData.email || formData.username
       if (identifier) {
@@ -93,10 +94,10 @@ export default function Profile() {
         }
       }
 
-      alert("Personal information saved successfully!")
-    } catch (e) {
+      toast.success(response?.message || "Personal information saved successfully!")
+    } catch (e: any) {
       console.error(e)
-      alert("Failed to save personal information.")
+      toast.error(e.message || "Failed to save personal information.")
     } finally {
       setIsSaving(false)
     }
@@ -106,12 +107,12 @@ export default function Profile() {
     setIsSavingMode(true)
 
     try {
-      await postmode({ assistantmode: selectedAssistant })
+      const response = await postmode({ assistantmode: selectedAssistant })
       localStorage.setItem("preferredAssistant", selectedAssistant)
-      alert("Teaching Assistant mode saved successfully!")
-    } catch (e) {
+      toast.success(response?.message || "Teaching Assistant mode saved successfully!")
+    } catch (e: any) {
       console.error(e)
-      alert("Failed to save mode.")
+      toast.error(e.message || "Failed to save mode.")
     } finally {
       setIsSavingMode(false)
     }

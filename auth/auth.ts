@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-const apiurl = "https://closefistedly-ditriglyphic-tameika.ngrok-free.dev/api"
+const apiurl = "http://localhost:3000/api"
 export const postuser = async (data: { name?: string; bio?: string }) => {
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
   const response = await fetch("/api/update", {
@@ -12,7 +12,8 @@ export const postuser = async (data: { name?: string; bio?: string }) => {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to update user");
+    const err = await response.json().catch(() => null);
+    throw new Error(err?.message || "Failed to update user");
   }
 
   return response.json();
@@ -32,7 +33,8 @@ export const postmode = async (data: { assistantmode: string }) => {
    
  console.log(data);
   if (!response.ok) {
-    throw new Error("Failed to update mode");
+    const err = await response.json().catch(() => null);
+    throw new Error(err?.message || "Failed to update mode");
   }
 
   return response.json();
