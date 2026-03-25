@@ -21,7 +21,7 @@ export const exportResponsePDF = (content: string, index: number) => {
   const contentWidth = pageWidth - marginX * 2
   let y = 0
 
-  // ─── Page helpers ───────────────────────────────────────────────────────────
+  
 
   const initPage = () => {
     // Dark background
@@ -62,7 +62,7 @@ export const exportResponsePDF = (content: string, index: number) => {
     }
   }
 
-  // ─── Text writer ─────────────────────────────────────────────────────────────
+
 
   const writeText = (
     text: string,
@@ -118,7 +118,7 @@ export const exportResponsePDF = (content: string, index: number) => {
     y += boxH + 6
   }
 
-  // ─── Cover page ──────────────────────────────────────────────────────────────
+  
 
   initPage()
 
@@ -147,7 +147,6 @@ export const exportResponsePDF = (content: string, index: number) => {
     86
   )
 
-  // ─── Content page(s) ──────────────────────────────────────────────────────────
 
   doc.addPage()
   initPage()
@@ -261,7 +260,6 @@ export const exportResponsePDF = (content: string, index: number) => {
     writeText(content, { size: 10.5, lineH: 6 })
   }
 
-  // ─── Add footers to ALL pages (no background redraw) ──────────────────────
 
   const totalPages = doc.getNumberOfPages()
   for (let p = 1; p <= totalPages; p++) {

@@ -5,6 +5,7 @@ interface User {
   email: string;
   name: string;
   username: string;
+  bio?: string;
 }
 
 interface UserState {

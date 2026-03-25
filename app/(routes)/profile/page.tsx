@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react"
 import { useUserStore } from "@/store/userStore"
 import { useRouter } from "next/navigation"
-import { User, Mail, AtSign, Save, Sparkles, Brain, BookOpen, MessageSquare, LogOut } from "lucide-react"
+import { User, Mail, AtSign, Save, Sparkles, Brain, BookOpen, MessageSquare, LogOut, FileText } from "lucide-react"
+import { postuser, getuser, postmode } from "@/auth/auth"
 
 const ASSISTANTS = [
   {
@@ -54,18 +55,21 @@ export default function Profile() {
   const [formData, setFormData] = useState({
     name: "",
     username: "",
-    email: ""
+    email: "",
+    bio: ""
   })
   const [selectedAssistant, setSelectedAssistant] = useState("socratic")
   console.log(selectedAssistant)
   const [isSaving, setIsSaving] = useState(false)
+  const [isSavingMode, setIsSavingMode] = useState(false)
 
   useEffect(() => {
     if (user) {
       setFormData({
         name: user.name || "",
         username: user.username || "",
-        email: user.email || ""
+        email: user.email || "",
+        bio: user.bio || ""
       })
     
       const savedAssistant = localStorage.getItem("preferredAssistant")
@@ -78,11 +82,39 @@ export default function Profile() {
   const handleSave = async () => {
     setIsSaving(true)
 
-    await new Promise(resolve => setTimeout(resolve, 800))
-    localStorage.setItem("preferredAssistant", selectedAssistant)
-   
-    setIsSaving(false)
-    alert("Profile saved successfully!")
+    try {
+      await postuser({ name: formData.name, bio: formData.bio })
+      
+      const identifier = formData.email || formData.username
+      if (identifier) {
+        const fetchUser = await getuser(identifier)
+        if (fetchUser) {
+          useUserStore.getState().setUser(fetchUser)
+        }
+      }
+
+      alert("Personal information saved successfully!")
+    } catch (e) {
+      console.error(e)
+      alert("Failed to save personal information.")
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleSaveMode = async () => {
+    setIsSavingMode(true)
+
+    try {
+      await postmode({ assistantmode: selectedAssistant })
+      localStorage.setItem("preferredAssistant", selectedAssistant)
+      alert("Teaching Assistant mode saved successfully!")
+    } catch (e) {
+      console.error(e)
+      alert("Failed to save mode.")
+    } finally {
+      setIsSavingMode(false)
+    }
   }
 
   const handleLogout = () => {
@@ -125,9 +157,8 @@ export default function Profile() {
                   <input
                     type="text"
                     value={formData.username}
-                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                    className="w-full rounded-xl border border-white/10 bg-[#2f2f2f] py-2.5 pl-10 pr-4 text-sm outline-none transition-colors focus:border-white/20"
-                    placeholder="Enter your username"
+                    disabled
+                    className="w-full rounded-xl border border-white/10 bg-[#2f2f2f] py-2.5 pl-10 pr-4 text-sm text-neutral-400 outline-none cursor-not-allowed opacity-70"
                   />
                 </div>
               </div>
@@ -144,6 +175,35 @@ export default function Profile() {
                   />
                 </div>
               </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-neutral-300">Bio</label>
+                <div className="relative">
+                  <FileText className="absolute left-3 top-3 h-4 w-4 text-neutral-500" />
+                  <textarea
+                    value={formData.bio}
+                    onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                    rows={4}
+                    className="w-full rounded-xl border border-white/10 bg-[#2f2f2f] py-2.5 pl-10 pr-4 text-sm outline-none transition-colors focus:border-white/20 resize-none"
+                    placeholder="Tell us a little about yourself"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={handleSave}
+                disabled={isSaving}
+                className="flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-90 disabled:opacity-50"
+              >
+                {isSaving ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-black border-t-transparent" />
+                ) : (
+                  <Save className="h-4 w-4" />
+                )}
+                {isSaving ? "Saving..." : "Save Info"}
+              </button>
             </div>
           </div>
           <div className="flex flex-col gap-6 rounded-2xl border border-white/10 bg-[#212121] p-6 lg:col-span-1">
@@ -180,30 +240,32 @@ export default function Profile() {
                 )
               })}
             </div>
+
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={handleSaveMode}
+                disabled={isSavingMode}
+                className="flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-90 disabled:opacity-50"
+              >
+                {isSavingMode ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-black border-t-transparent" />
+                ) : (
+                  <Save className="h-4 w-4" />
+                )}
+                {isSavingMode ? "Saving..." : "Save Mode"}
+              </button>
+            </div>
           </div>
         </div>
 
     
-        <div className="mt-8 flex items-center justify-between">
+        <div className="mt-8 flex items-center justify-start">
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 rounded-xl border border-red-500/20 bg-red-500/10 px-6 py-3 text-sm font-semibold text-red-500 transition-colors hover:bg-red-500/20"
           >
             <LogOut className="h-4 w-4" />
             Sign Out
-          </button>
-          
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-black transition-opacity hover:opacity-90 disabled:opacity-50"
-          >
-            {isSaving ? (
-              <div className="h-4 w-4 animate-spin rounded-full border-2 border-black border-t-transparent" />
-            ) : (
-              <Save className="h-4 w-4" />
-            )}
-            {isSaving ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </div>
