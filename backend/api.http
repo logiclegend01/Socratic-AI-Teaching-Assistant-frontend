@@ -15,13 +15,13 @@
 # }
 
 
-POST http://localhost:3000/api/auth/login
-Content-Type: application/json
+# POST http://localhost:3000/api/auth/login
+# Content-Type: application/json
 
-{
-    "identifier": "sujan@gmail.com",
-    "password": "password123"
-}
+# {
+#     "identifier": "sujan@gmail.com",
+#     "password": "password123"
+# }
 
 
 # POST http://localhost:3000/api/chat/stream
@@ -52,10 +52,10 @@ Content-Type: application/json
 
 
 
- #POST http://localhost:3000/api/chat/getchat
-# Content-Type: application/json
+POST http://localhost:3000/api/user/assistant
+Content-Type: application/json
 
-# {
-#  "userid" : ""
-# }
+{
+ "assistantmode": "direct"
+}
 

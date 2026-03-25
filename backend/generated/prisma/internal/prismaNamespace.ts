@@ -673,6 +673,7 @@ export const UserScalarFieldEnum = {
   email: 'email',
   username: 'username',
   bio: 'bio',
+  assistant: 'assistant',
   password: 'password',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -718,6 +719,14 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
 
 /**
  * Field references
@@ -735,6 +744,20 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SelectAssistent'
+ */
+export type EnumSelectAssistentFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SelectAssistent'>
+    
+
+
+/**
+ * Reference to a field of type 'SelectAssistent[]'
+ */
+export type ListEnumSelectAssistentFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SelectAssistent[]'>
     
 
 

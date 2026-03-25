@@ -9,6 +9,16 @@
 * 🟢 You can import this file directly.
 */
 
+export const SelectAssistent = {
+  socratic: 'socratic',
+  direct: 'direct',
+  creative: 'creative',
+  evaluator: 'evaluator'
+} as const
+
+export type SelectAssistent = (typeof SelectAssistent)[keyof typeof SelectAssistent]
+
+
 export const MessageRole = {
   user: 'user',
   assistant: 'assistant',

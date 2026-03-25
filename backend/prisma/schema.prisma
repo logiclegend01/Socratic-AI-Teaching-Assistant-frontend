@@ -8,12 +8,21 @@ datasource db {
   provider = "postgresql"
 }
 
+enum SelectAssistent {
+  socratic
+  direct
+  creative
+  evaluator
+}
+
+
 model User {
   id        String   @id @default(cuid())
   name      String
   email     String
   username  String
   bio       String?
+  assistant SelectAssistent @default(socratic)
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())

@@ -1,5 +1,5 @@
 import { Controller, Post, Body } from "@nestjs/common"
-import { UserService } from "./user.service"
+import { UserService, SelectAssistent } from "./user.service"
 @Controller("api/user")
 export class UserController {
     constructor(private userService: UserService) { }
@@ -12,11 +12,17 @@ export class UserController {
     }
 
     @Post("update")
-    async updateUser(@Body() body: { name?: string, bio?: string, assistent?: string }) {
-        const { assistent, bio, name } = body
-        return this.userService.updateUser(name, bio, assistent)
+    async updateUser(@Body() body: { userId: string, name?: string, bio?: string }) {
+        const { userId, bio, name } = body
+        return this.userService.updateUser(userId, name, bio)
     }
 
+    @Post("assistant")
+    async selectAssistant(@Body() body: { userId: string, assistantmode: SelectAssistent }) {
+        const { assistantmode, userId } = body
+        console.log(assistantmode)
+        return this.userService.selectAssistant(userId, assistantmode)
+    }
 
 }
 
